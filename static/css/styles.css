@@ -1,0 +1,431 @@
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.botones_manejo_empleados {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.botones_manejo_empleados > div {
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
+}
+
+.botones_manejo_empleados.mostrar {
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilos para el Login */
+.login_box {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+}
+
+.login_box h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.input_group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.input_group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input_group input:focus {
+    border-color: #4e54c8;
+    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+    outline: none;
+}
+
+#ingresar_button {
+    width: 100%;
+    padding: 12px;
+    background: #4e54c8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#ingresar_button:hover {
+    background: #4348a8;
+    transform: translateY(-2px);
+}
+
+/* Estilos para el Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.mostrar {
+    display: flex;
+    opacity: 1;
+}
+
+.modal_contenido {
+    background-color: white;
+    margin: 15% auto;
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-50px);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.mostrar .modal_contenido {
+    transform: translateY(0);
+}
+
+.modal_cabecera {
+    padding: 15px 20px;
+    background: #4e54c8;
+    color: white;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal_cabecera h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.cerrar-modal {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.cerrar-modal:hover {
+    color: #f0f0f0;
+}
+
+.modal_cuerpo {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Estilos para el formulario de empleado */
+.formulario_empleado {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formulario_empleado .input_group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formulario_empleado label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.formulario_empleado input[type="text"],
+.formulario_empleado input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.formulario_empleado input:focus {
+    border-color: #4e54c8;
+    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+    outline: none;
+}
+
+.modal_pie {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 8px 8px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.modal_pie {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 8px 8px;
+    text-align: right;
+}
+
+.btn_cerrar {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn_cerrar:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos para la lista de movimientos */
+.movimiento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.movimiento:last-child {
+    border-bottom: none;
+}
+
+.movimiento_fecha {
+    color: #6c757d;
+    font-size: 0.9rem;
+    width: 100px;
+}
+
+.movimiento_descripcion {
+    flex-grow: 1;
+    padding: 0 15px;
+}
+
+.movimiento_dias {
+    font-weight: 500;
+    color: #28a745;
+}
+
+.movimiento_dias.negativo {
+    color: #dc3545;
+}
+
+/* Estilos para cuando no hay movimientos */
+#contenedor_movimientos > p {
+    text-align: center;
+    color: #6c757d;
+    padding: 20px 0;
+    margin: 0;
+}
+
+/* Estilos para el Main */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+}
+
+.contenedor_tabla_empleados {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+#contenedor_filas_empleados {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.empleado_header, .empleado_fila {
+    display: grid;
+    grid-template-columns: 100px 1fr 150px;
+    padding: 1rem;
+    align-items: center;
+}
+
+/* Estados de carga y mensajes */
+.cargando, .sin_datos, .error {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.error {
+    color: #dc3545;
+}
+
+/* Alineación de la columna de salario */
+.empleado_salario {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+}
+
+.empleado_header {
+    background: #4e54c8;
+    color: white;
+    font-weight: 500;
+    border-radius: 6px 6px 0 0;
+}
+
+.empleado_fila {
+    background: white;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+}
+
+.empleado_fila:hover {
+    background-color: #f8f9fa;
+}
+
+.empleado_header > div, .empleado_fila > div {
+    padding: 0.5rem;
+}
+
+button {
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 160px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#agregar_empleado {
+    background: #4e54c8;
+    color: white;
+}
+
+#agregar_empleado:hover {
+    background: #4348a8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#eliminar_empleado, #modificar_empleado {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+#eliminar_empleado:hover, #modificar_empleado:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#ver_movimientos, #cerrar_sesion {
+    background: #6c757d;
+    color: white;
+    margin-left: 15px;
+}
+
+#ver_movimientos:hover, #cerrar_sesion:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(78, 84, 200, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 84, 200, 0.7);
+}

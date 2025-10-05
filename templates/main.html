@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Empleados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Lista de Empleados</h1>
+        <div class="contenedor_tabla_empleados">
+            <div class="empleado_header">
+                <div class="empleado_id">ID</div>
+                <div class="empleado_nombre">Nombre</div>
+                <div class="empleado_vacaciones_restantes">Vacaciones Restantes</div>
+            </div>
+            <div class="contenedor_filas" id="contenedor_filas_empleados">
+                <!-- Filas de empleados -->
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="botones_manejo_empleados">
+        <button id="agregar_empleado">Agregar Empleado</button>
+        <button id="eliminar_empleado">Eliminar Empleado</button>
+        <button id="modificar_empleado">Modificar Empleado</button>
+        <button id="ver_movimientos">Ver Movimientos</button>
+        <button id="cerrar_sesion">Cerrar Sesión</button>
+    </div>
+
+    <!-- Modal de Movimientos -->
+    <div id="modalMovimientos" class="modal">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Movimientos del Empleado</h2>
+                <span class="cerrar-modal">&times;</span>
+            </div>
+            <div class="modal-cuerpo" id="contenedor_movimientos">
+                <!-- Los movimientos se cargarán aquí dinámicamente -->
+                <p>No hay movimientos para mostrar.</p>
+            </div>
+            <div class="modal-pie">
+                <button class="btn btn-cerrar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Agregar Empleado -->
+    <div id="modal_agregar_empleado" class="modal">
+        <div class="modal_contenido">
+            <div class="modal_cabecera">
+                <h2>Agregar Nuevo Empleado</h2>
+                <span id="cerrar_modal_btn" class="cerrar_modal">&times;</span>
+            </div>
+            <div class="modal_cuerpo">
+                <form id="agregar_empleado_form" class="formulario_empleado">
+                    <div class="input_group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="input_group">
+                        <label for="vacaciones_restantes">Vacaciones Restantes:</label>
+                        <input type="number" id="vacaciones_restantes" name="vacaciones_restantes" required>
+                    </div>
+                    <div class="modal_pie">
+                        <button type="button" id="cancelar_btn" class="btn btn_cerrar">Cancelar</button>
+                        <button type="submit" class="btn" style="background-color: #4e54c8; color: white;">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    
+    
+</body>
+</html>
+

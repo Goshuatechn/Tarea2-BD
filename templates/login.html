@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="login_box">
+            <h2>Iniciar Sesión</h2>
+            <form id="login_form">
+                <div class="input_group">
+                    <input type="text" id="username" placeholder="Usuario" required>
+                </div>
+                <div class="input_group">
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+                <button id="ingresar_button">Ingresar</button>
+                <div id="login_error" class="error_message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
