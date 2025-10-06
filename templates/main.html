@@ -32,18 +32,17 @@
     </div>
 
     <!-- Modal de Movimientos -->
-    <div id="modalMovimientos" class="modal">
-        <div class="modal-contenido">
-            <div class="modal-cabecera">
+    <div id="modal_movimientos" class="modal">
+        <div class="modal_contenido">
+            <div class="modal_cabecera">
                 <h2>Movimientos del Empleado</h2>
-                <span class="cerrar-modal">&times;</span>
             </div>
-            <div class="modal-cuerpo" id="contenedor_movimientos">
+            <div class="modal_cuerpo" id="contenedor_movimientos">
                 <!-- Los movimientos se cargarán aquí dinámicamente -->
                 <p>No hay movimientos para mostrar.</p>
             </div>
-            <div class="modal-pie">
-                <button class="btn btn-cerrar">Cerrar</button>
+            <div class="modal_pie">
+                <button class="btn btn_cerrar" id="cerrar_modal_btn">Cerrar</button>
             </div>
         </div>
     </div>
@@ -53,7 +52,6 @@
         <div class="modal_contenido">
             <div class="modal_cabecera">
                 <h2>Agregar Nuevo Empleado</h2>
-                <span id="cerrar_modal_btn" class="cerrar_modal">&times;</span>
             </div>
             <div class="modal_cuerpo">
                 <form id="agregar_empleado_form" class="formulario_empleado">
@@ -68,6 +66,47 @@
                     <div class="modal_pie">
                         <button type="button" id="cancelar_btn" class="btn btn_cerrar">Cancelar</button>
                         <button type="submit" class="btn" style="background-color: #4e54c8; color: white;">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Eliminar Empleado -->
+    <div id="modal_eliminar_empleado" class="modal">
+        <div class="modal_contenido">
+            <div class="modal_cabecera">
+                <h2>Eliminar Empleado</h2>
+            </div>
+            <div class="modal_cuerpo">
+                <p>¿Estás seguro de eliminar este empleado?</p>
+                <div class="modal_pie">
+                    <button class="btn btn_cerrar" id="cancelar_btn">Cancelar</button>
+                    <button class="btn" style="background-color: #dc3545; color: white;">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Modificar Empleado -->
+    <div id="modal_modificar_empleado" class="modal">
+        <div class="modal_contenido">
+            <div class="modal_cabecera">
+                <h2>Modificar Empleado</h2>
+            </div>
+            <div class="modal_cuerpo">
+                <form id="modificar_empleado_form" class="formulario_empleado">
+                    <div class="input_group">
+                        <label for="nombre_modificar">Nombre:</label>
+                        <input type="text" id="nombre_modificar" name="nombre" required>
+                    </div>
+                    <div class="input_group">
+                        <label for="vacaciones_restantes_modificar">Vacaciones Restantes:</label>
+                        <input type="number" id="vacaciones_restantes_modificar" name="vacaciones_restantes" required>
+                    </div>
+                    <div class="modal_pie">
+                        <button type="button" id="cancelar_btn" class="btn btn_cerrar">Cancelar</button>
+                        <button type="submit" class="btn" style="background-color: #4e54c8; color: white;">Modificar</button>
                     </div>
                 </form>
             </div>

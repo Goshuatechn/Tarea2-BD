@@ -99,7 +99,7 @@ if (ingresarButton) {
 
 // Función para mostrar el modal de movimientos (TODO -> Verificar la estructura de los movimientos y carga desde la base de datos)
 function mostrarModalMovimientos() {
-    const modal = document.getElementById('modalMovimientos');
+    const modal = document.getElementById('modal_movimientos');
     modal.classList.add('mostrar');
     document.body.style.overflow = 'hidden'; // Evitar scroll del fondo
 
@@ -213,9 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ----------------------------------------------------- //
-// Eventos de gestión de empleados
+// Eventos de gestión de empleados (Agregar, Eliminar, Modificar)
 document.addEventListener('DOMContentLoaded', function() {
-
     // ----------------------------------------------------- //
     // Elementos del DOM
     const btn_agregar = document.getElementById('agregar_empleado');
@@ -226,12 +225,11 @@ document.addEventListener('DOMContentLoaded', function() {
         btn_agregar.addEventListener('click', mostrarModalAgregarEmpleado);
     }
     
-    // Evento para manejar el envío del formulario
+    // Evento para manejar el envío del formulario de agregar
     if (form_agregar) {
         form_agregar.addEventListener('submit', manejarAgregarEmpleado);
     }
     
-    // ----------------------------------------------------- //
     // Cerrar modales
     // 1. Al hacer clic en la X o botón de cancelar
     const cerrar_modal_btn = document.getElementById('cerrar_modal_btn');
