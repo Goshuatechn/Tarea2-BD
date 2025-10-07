@@ -39,7 +39,6 @@ async function obtenerEmpleados() {
 
 // Cargar empleados en la tabla
 async function cargarEmpleados() {
-
     const contenedorFilas = document.getElementById('contenedor_filas_empleados');
     
     // Mostrar indicador de carga
@@ -58,19 +57,38 @@ async function cargarEmpleados() {
         empleados.forEach(empleado => {
             const fila = document.createElement('div');
             fila.className = 'empleado_fila';
+            fila.dataset.id = empleado.id_empleado;
+            
+            // Formatear fecha
+            const fechaContratacion = empleado.fecha_contratacion 
+                ? new Date(empleado.fecha_contratacion).toLocaleDateString() 
+                : 'No especificada';
+                
+            // Estado como texto
+            const estado = empleado.activo ? 'Activo' : 'Inactivo';
+            
             fila.innerHTML = `
-                <div class="empleado_id">${empleado.id}</div>
-                <div class="empleado_nombre">${empleado.nombre}</div>
-                <div class="empleado_vacaciones_restantes">${empleado.vacaciones_restantes}</div>
+                <div class="empleado_id">${empleado.id_empleado || 'N/A'}</div>
+                <div class="empleado_nombre">${empleado.nombre || 'Sin nombre'}</div>
+                <div class="empleado_documento">${empleado.documento_identidad || 'N/A'}</div>
+                <div class="empleado_fecha_contratacion">${fechaContratacion}</div>
+                <div class="empleado_puesto">${empleado.puesto || 'Sin puesto'}</div>
+                <div class="empleado_vacaciones">${empleado.saldo_vacaciones || 0} días</div>
+                <div class="empleado_estado">
+                    <span class="estado-badge ${empleado.activo ? 'activo' : 'inactivo'}">
+                        ${estado}
+                    </span>
+                </div>
             `;
             contenedorFilas.appendChild(fila);
         });
-        
-        // console.log("Empleados cargados:", empleados);
     
     } catch (error) {
         console.error('Error al cargar empleados:', error);
-        contenedorFilas.innerHTML = '<div class="error">Error al cargar los empleados. Intente nuevamente.</div>';
+        contenedorFilas.innerHTML = `
+            <div class="error">
+                Error al cargar los empleados. ${error.message || 'Intente nuevamente.'}
+            </div>`;
     }
 }
 
