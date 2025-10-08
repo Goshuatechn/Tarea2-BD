@@ -18,7 +18,6 @@
                 <div class="empleado_fecha_contratacion">Fecha Contratación</div>
                 <div class="empleado_puesto">Puesto</div>
                 <div class="empleado_vacaciones">Vacaciones</div>
-                <div class="empleado_estado">Estado</div>
             </div>
             <div class="contenedor_filas" id="contenedor_filas_empleados">
                 <!-- Filas de empleados -->
@@ -64,12 +63,23 @@
                         <input type="text" id="nombre" name="nombre" required>
                     </div>
                     <div class="input_group">
-                        <label for="vacaciones_restantes">Vacaciones Restantes:</label>
-                        <input type="number" id="vacaciones_restantes" name="vacaciones_restantes" required>
+                        <label for="puesto">Puesto:</label>
+                        <select id="puesto" name="puesto" required>
+                            <option value="" disabled selected>Seleccione un puesto</option>
+                            <!-- Los puestos se cargarán dinámicamente con JavaScript -->
+                        </select>
+                    </div>
+                    <div class="input_group">
+                        <label for="documento_identidad">Documento de Identidad:</label>
+                        <input type="text" id="documento_identidad" name="documento_identidad" required pattern="[0-9]+" title="Por favor ingrese solo números">
+                    </div>
+                    <div class="input_group">
+                        <label for="fecha_contratacion">Fecha de Contratación:</label>
+                        <input type="date" id="fecha_contratacion" name="fecha_contratacion" required>
                     </div>
                     <div class="modal_pie">
-                        <button type="button" id="cancelar_btn" class="btn btn_cerrar">Cancelar</button>
-                        <button type="submit" class="btn" style="background-color: #4e54c8; color: white;">Agregar</button>
+                        <button type="button" id="cancelar_agregar_btn" class="btn btn_cerrar">Cancelar</button>
+                        <button type="submit" id="agregar_btn" class="btn" style="background-color: #4e54c8; color: white;">Agregar</button>
                     </div>
                 </form>
             </div>
@@ -82,13 +92,19 @@
             <div class="modal_cabecera">
                 <h2>Eliminar Empleado</h2>
             </div>
-            <div class="modal_cuerpo">
-                <p>¿Estás seguro de eliminar este empleado?</p>
-                <div class="modal_pie">
-                    <button class="btn btn_cerrar" id="cancelar_btn">Cancelar</button>
-                    <button class="btn" style="background-color: #dc3545; color: white;">Eliminar</button>
+            <form id="eliminar_empleado_form" class="modal_cuerpo">
+                <div class="input_group">
+                    <label for="empleado_a_eliminar">Seleccione el empleado a eliminar:</label>
+                    <select id="empleado_a_eliminar" name="empleado_id" required>
+                        <option value="" disabled selected>Seleccione un empleado</option>
+                        <!-- Los empleados se cargarán dinámicamente con JavaScript -->
+                    </select>
                 </div>
-            </div>
+                <div class="modal_pie">
+                    <button type="button" id="cancelar_eliminar_btn" class="btn btn_cerrar">Cancelar</button>
+                    <button type="submit" id="eliminar_btn" class="btn" style="background-color: #dc3545; color: white;">Eliminar</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -109,8 +125,8 @@
                         <input type="number" id="vacaciones_restantes_modificar" name="vacaciones_restantes" required>
                     </div>
                     <div class="modal_pie">
-                        <button type="button" id="cancelar_btn" class="btn btn_cerrar">Cancelar</button>
-                        <button type="submit" class="btn" style="background-color: #4e54c8; color: white;">Modificar</button>
+                        <button type="button" id="cancelar_modificar_btn" class="btn btn_cerrar">Cancelar</button>
+                        <button type="submit" id="modificar_btn" class="btn" style="background-color: #4e54c8; color: white;">Modificar</button>
                     </div>
                 </form>
             </div>
