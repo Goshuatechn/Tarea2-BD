@@ -58,10 +58,10 @@ async function obtenerPuestos() {
 }
 
 // Cargar puestos en el select
-async function cargarPuestos() {
-    const selectPuesto = document.getElementById('puesto');
+async function cargarPuestos(selectId = 'puesto') {
+    const selectPuesto = document.getElementById(selectId);
     if (!selectPuesto) {
-        console.error('[ERROR] No se encontró el elemento select con id "puesto"');
+        console.error(`[ERROR] No se encontró el elemento select con id "${selectId}"`);
         return;
     }
     
@@ -213,15 +213,85 @@ function mostrarModalAgregarEmpleado() {
 // Función para mostrar el modal de modificar empleado
 function mostrarModalModificarEmpleado() {
     console.log('[DEBUG] Mostrando modal de modificación de empleado');
-    const modal = document.getElementById('modificar_empleado_modal');
-    if (!modal) {
-        console.error('No se encontró el modal de modificación');
+    const modal = document.getElementById('modal_modificar_empleado');
+    const select = document.getElementById('empleado_a_modificar');
+    
+    if (!modal || !select) {
+        console.error('No se encontró el modal o el select de modificación');
         return;
     }
     
-    // Aquí iría la lógica para cargar los datos del empleado a modificar
+    // Limpiar opciones existentes
+    select.innerHTML = '<option value="" disabled selected>Seleccione un empleado</option>';
+    
+    // Cargar empleados en el select
+
+    empleados_modificar = [];
+
+    fetch('/obtener-empleados')
+        .then(response => response.json())
+        .then(data => {
+            empleados_modificar = data.empleados;
+            data.empleados.forEach(empleado => {
+                const option = document.createElement('option');
+                option.value = empleado.id_empleado;
+                option.textContent = `${empleado.nombre} - ${empleado.documento_identidad} - ${empleado.puesto}`;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar empleados:', error);
+            alert('Error al cargar la lista de empleados');
+        });
+    
     modal.classList.add('mostrar');
     document.body.style.overflow = 'hidden';
+    
+    // Cargar puestos en el select
+    cargarPuestos('puesto_modificar');
+    
+    // Cargar datos del empleado cuando se selecciona uno
+    select.addEventListener('change', async function() {
+        const empleadoId = this.value;
+        if (!empleadoId) return;
+        
+        const empleado = empleados_modificar.find(empleado => empleado.id_empleado == empleadoId);
+        if (!empleado) return;
+        
+        // Llenar los campos del formulario con los datos del empleado
+        document.getElementById('nombre_modificar').value = empleado.nombre || '';
+        document.getElementById('documento_modificar').value = empleado.documento_identidad || '';
+        document.getElementById('puesto_modificar').value = empleado.id_puesto || '';
+        
+        // Establecer el valor del select de puestos
+        const puestoSelect = document.getElementById('puesto_modificar');
+        if (puestoSelect) {
+            // Buscar la opción que coincida con el ID del puesto del empleado
+            for (let i = 0; i < puestoSelect.options.length; i++) {
+                if (puestoSelect.options[i].value == empleado.id_puesto) {
+                    puestoSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    });
+    
+    // Cerrar el modal al hacer clic en el botón de cancelar
+    const cancelarBtn = document.getElementById('cancelar_modificar_btn');
+    if (cancelarBtn) {
+        cancelarBtn.onclick = function() {
+            modal.classList.remove('mostrar');
+            document.body.style.overflow = 'auto';
+        };
+    }
+    
+    // Cerrar el modal al hacer clic fuera del contenido
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            modal.classList.remove('mostrar');
+            document.body.style.overflow = 'auto';
+        }
+    };
 }
 
 // Función para mostrar el modal de eliminar empleado
@@ -404,6 +474,100 @@ function manejarAgregarEmpleado(event) {
     });
 }
 
+function manejarEliminarEmpleado(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const empleado_id = formData.get('empleado_id');
+    
+    console.log('Eliminando empleado con ID:', empleado_id);
+    
+    fetch('/eliminar-empleado/' + empleado_id, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el empleado');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Empleado eliminado:', data);
+        
+        // Cerrar el modal y limpiar el formulario
+        cerrarModal();
+        event.target.reset();
+        
+        // Recargar la lista de empleados después de un breve retraso
+        setTimeout(() => {
+            limpiarTablaEmpleados();
+            cargarEmpleados().then(() => {
+                console.log('Empleados recargados exitosamente');
+            }).catch(error => {
+                console.error('Error al recargar empleados:', error);
+            });
+        }, 500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al eliminar el empleado: ' + error.message);
+    });
+}
+
+function manejarModificarEmpleado(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    const empleado_id = document.getElementById('empleado_a_modificar').value;
+    
+    console.log('Datos del formulario:', {
+        empleado_id: empleado_id,
+        nombre: formData.get('nombre'),
+        documento: formData.get('documento'),
+        puesto: formData.get('puesto')
+    });
+    
+    fetch('/modificar-empleado/' + empleado_id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            valor_documento_identidad: formData.get('documento'),
+            nombre: formData.get('nombre'),
+            id_puesto: formData.get('puesto')
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al modificar el empleado');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Empleado modificado:', data);
+        
+        // Cerrar el modal y limpiar el formulario
+        cerrarModal();
+        event.target.reset();
+        
+        // Recargar la lista de empleados después de un breve retraso
+        setTimeout(() => {
+            limpiarTablaEmpleados();
+            cargarEmpleados().then(() => {
+                console.log('Empleados recargados exitosamente');
+            }).catch(error => {
+                console.error('Error al recargar empleados:', error);
+            });
+        }, 500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al modificar el empleado: ' + error.message);
+    });
+}
+
 // ----------------------------------------------------- //
 // Eventos de carga de empleados y puestos
 document.addEventListener('DOMContentLoaded', function() {
@@ -485,6 +649,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Evento para abrir el modal de modificar empleado
     if (btn_modificar) {
         btn_modificar.addEventListener('click', mostrarModalModificarEmpleado);
+    }
+    
+    // Evento para el formulario de modificar empleado
+    const modificarForm = document.getElementById('modificar_empleado_form');
+    if (modificarForm) {
+        modificarForm.addEventListener('submit', manejarModificarEmpleado);
     }
     
     // Cerrar modales con los botones de cancelar

@@ -158,6 +158,44 @@ def eliminar_empleado(empleado_id):
         traceback.print_exc()
         return jsonify({'success': False, 'message': error_msg}), 500
 
+# Ruta para modificar un empleado
+@app.route('/modificar-empleado/<int:empleado_id>', methods=['PUT'])
+def modificar_empleado(empleado_id):
+    try:
+        print(f"[DEBUG] Ruta modificar_empleado llamada con ID: {empleado_id}")
+        
+        if not empleado_id:
+            return jsonify({'success': False, 'message': 'Se requiere un ID de empleado'}), 400
+            
+        # Obtener los datos del cuerpo de la petición
+        data = request.get_json()
+        print(f"[DEBUG] Datos recibidos: {data}")
+        
+        if not data:
+            return jsonify({'success': False, 'message': 'No se proporcionaron datos para actualizar'}), 400
+            
+        # Llamar a la función del modelo para modificar el empleado
+        success, message = BD_model.modificarEmpleado(
+            id_empleado=empleado_id,
+            valor_documento_identidad=data.get('valor_documento_identidad'),
+            nombre=data.get('nombre'),
+            id_puesto=data.get('id_puesto')
+        )
+        
+        if success:
+            print(f"[DEBUG] Empleado {empleado_id} modificado exitosamente")
+            return jsonify({'success': True, 'message': message})
+        else:
+            print(f"[ERROR] Error al modificar empleado: {message}")
+            return jsonify({'success': False, 'message': message}), 400
+            
+    except Exception as e:
+        error_msg = f'Error al procesar la solicitud: {str(e)}'
+        print(f'[ERROR] {error_msg}')
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'message': error_msg}), 500
+
 # Ruta para la página principal
 @app.route('/main')
 def main():

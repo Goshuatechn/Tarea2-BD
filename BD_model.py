@@ -349,29 +349,70 @@ def agregarEmpleado(nombre, valor_documento_identidad, fecha_contratacion, id_pu
         
         # No cerramos la conexión aquí, se manejará en el contexto de la solicitud
 
-def actualizarEmpleado(id_empleado, nombre, apellido, fecha_ingreso=None, salario=None, id_departamento=None):
+def modificarEmpleado(id_empleado, valor_documento_identidad, nombre, id_puesto, id_post_by_user=1, post_in_ip='127.0.0.1'):
+    conn = None
+    cursor = None
+    
+    print("\n[DEBUG] Iniciando modificarEmpleado()")
+    print(f"[DEBUG] ID del empleado: {id_empleado}")
+    print(f"[DEBUG] Documento de identidad: {valor_documento_identidad}")
+    print(f"[DEBUG] Nombre: {nombre}")
+    print(f"[DEBUG] ID del puesto: {id_puesto}")
+    print(f"[DEBUG] ID del usuario que realiza la modificación: {id_post_by_user}")
+    print(f"[DEBUG] IP del usuario que realiza la modificación: {post_in_ip}")
+    
     try:
         conn = get_connection()
+        if not conn:
+            return False, "No se pudo establecer conexión con la base de datos"
+            
         cursor = conn.cursor()
         
-        query = """
-        UPDATE dbo.Empleado
-        SET nombre = ?, apellido = ?, fecha_ingreso = ?, 
-            salario = ?, id_departamento = ?
-        WHERE id_empleado = ?
-        """
+        # Llamar al stored procedure SP_ActualizarEmpleado
+        params = (
+            id_empleado,
+            valor_documento_identidad,
+            nombre,
+            id_puesto,
+            id_post_by_user,
+            post_in_ip
+        )
         
-        cursor.execute(query, (nombre, apellido, fecha_ingreso, salario, id_departamento, id_empleado))
-        conn.commit()
-        return True, "Empleado actualizado correctamente"
+        # Ejecutar el stored procedure
+        cursor.execute("""
+            DECLARE @outResultCode INT;
+            EXEC SP_ActualizarEmpleado 
+                @inId = ?,
+                @inValorDocumentoIdentidad = ?,
+                @inNombre = ?,
+                @inIdPuesto = ?,
+                @inIdPostByUser = ?,
+                @inPostInIP = ?,
+                @outResultCode = @outResultCode OUTPUT;
+            SELECT @outResultCode as result_code;
+        """, params)
         
+        # Obtener el código de resultado
+        result_code = cursor.fetchone().result_code
+        
+        if result_code == 0:
+            conn.commit()
+            return True, "Empleado actualizado exitosamente"
+        else:
+            conn.rollback()
+            return False, f"Error al actualizar empleado (Código: {result_code})"
+            
     except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Error al actualizar empleado: {str(e)}")
         import traceback
         traceback.print_exc()
-        return False, f"Error al actualizar empleado: {str(e)}"
+        return False, str(e)
     finally:
-        if 'conn' in locals() and conn:
-            conn.close()
+        if cursor:
+            cursor.close()
+        # No cerramos la conexión aquí, se manejará en el contexto de la solicitud
 
 def eliminarEmpleado(id_empleado, id_post_by_user=1, post_in_ip='127.0.0.1'):
     

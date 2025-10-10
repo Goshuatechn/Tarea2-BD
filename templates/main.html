@@ -114,22 +114,34 @@
             <div class="modal_cabecera">
                 <h2>Modificar Empleado</h2>
             </div>
-            <div class="modal_cuerpo">
-                <form id="modificar_empleado_form" class="formulario_empleado">
-                    <div class="input_group">
-                        <label for="nombre_modificar">Nombre:</label>
-                        <input type="text" id="nombre_modificar" name="nombre" required>
-                    </div>
-                    <div class="input_group">
-                        <label for="vacaciones_restantes_modificar">Vacaciones Restantes:</label>
-                        <input type="number" id="vacaciones_restantes_modificar" name="vacaciones_restantes" required>
-                    </div>
-                    <div class="modal_pie">
-                        <button type="button" id="cancelar_modificar_btn" class="btn btn_cerrar">Cancelar</button>
-                        <button type="submit" id="modificar_btn" class="btn" style="background-color: #4e54c8; color: white;">Modificar</button>
-                    </div>
-                </form>
-            </div>
+            <form id="modificar_empleado_form" class="modal_cuerpo">
+                <div class="input_group">
+                    <label for="empleado_a_modificar">Seleccione el empleado a modificar:</label>
+                    <select id="empleado_a_modificar" name="empleado_id" required>
+                        <option value="" disabled selected>Seleccione un empleado</option>
+                        <!-- Los empleados se cargarán dinámicamente con JavaScript -->
+                    </select>
+                </div>
+                <div class="input_group">
+                    <label for="nombre_modificar">Nombre:</label>
+                    <input type="text" id="nombre_modificar" name="nombre" required>
+                </div>
+                <div class="input_group">
+                    <label for="documento_modificar">Documento:</label>
+                    <input type="text" id="documento_modificar" name="documento" required>
+                </div>
+                <div class="input_group">
+                    <label for="puesto_modificar">Puesto:</label>
+                    <select id="puesto_modificar" name="puesto" required>
+                        <option value="" disabled selected>Seleccione un puesto</option>
+                        <!-- Los puestos se cargarán dinámicamente con JavaScript -->
+                    </select>
+                </div>
+                <div class="modal_pie">
+                    <button type="button" id="cancelar_modificar_btn" class="btn btn_cerrar">Cancelar</button>
+                    <button type="submit" id="modificar_btn" class="btn" style="background-color: #4e54c8; color: white;">Aceptar</button>
+                </div>
+            </form>
         </div>
     </div>
 
